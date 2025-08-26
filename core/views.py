@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
-def _add_contato(request):
-    render(request, 'core/add_contato.html')
+def add_contato(request):
+    return render(request, 'core/add_contato.html')
