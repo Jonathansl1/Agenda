@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404
 from core.models import Contato
 
 def add_contato(request):
@@ -24,17 +24,13 @@ def listar_contato(request):
 
 
 
-
-
-
-
 def editarContato(request, id):
-    contato = Contato.get_object_or_404(id=id)
+    contato =get_object_or_404(Contato, id=id)
     if request.method == 'POST' :
-        nome = request.POST.get['nome']
-        sobrenome = request.POST.get['sobrenome']
-        descricao = request.POST.get['descricao']
-        telefone = request.POST.get['telefone']
+        nome = request.POST.get('nome')
+        sobrenome = request.POST.get('sobrenome')
+        descricao = request.POST.get('descricao')
+        telefone = request.POST.get('telefone')
         imagem = request.FILES.get('imagem')
 
 
@@ -44,10 +40,16 @@ def editarContato(request, id):
         contato.telefone = telefone
         contato.imagem = imagem
         contato.save()
-        return redirect('listar_contato')
+        return redirect('Listar_contato')
 
     context = {
         'contato':contato
     }
     return render(request, 'core/editarContato.html', context)
+
+def excluirContato(request, id):
+    contato = Contato.objects.get(id=id)
+    contato.delete()
+    return redirect('Listar_contato')
+
 
