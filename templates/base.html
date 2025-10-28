@@ -2,138 +2,464 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>My Title</title>
+    <title>Agendify - Base Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{% static 'public/bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'public/bootstrap/vendor/font-awesome/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'public/bootstrap/vendor/datatables/dataTables.bootstrap4.css' %}">
-    <link rel="stylesheet" href="{% static 'public/bootstrap/css/sb-admin.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css">
 
     <style>
-        body {
-            margin: 0;
+        /* ========================================================================= */
+        /* 1. VARIÁVEIS GLOBAIS                                                      */
+        /* ========================================================================= */
+        :root {
+            /* Dimensões */
+            --sidebar-width: 250px;
+            --sidebar-width-collapsed: 70px;
+            --header-height: 70px;
+
+            /* Cores Base */
+            --bg-dark: #121212;
+            --bg-sidebar: #1f1f1f;
+            --main-bg-color: var(--bg-dark);
+
+            /* Cores de Destaque */
+            --accent-color: #00bcd4; /* AZUL NEON */
+            --accent-glow: 0 0 10px rgba(0, 188, 212, 0.7);
+
+            /* Verde Neon para a borda do formulário */
+            --neon-green: #39ff14; /* Verde brilhante */
+            --neon-green-glow: 0 0 8px rgba(57, 255, 20, 0.8), 0 0 15px rgba(57, 255, 20, 0.4);
+
+            /* Cores Neutras */
+            --secondary-dark-color: #343a40; /* Cinza Escuro (Cancelar) */
+            --input-bg: #2a2a2a; /* Fundo do Input */
+
+            /* Cores de Texto */
+            --text-light: #e0e0e0;
+            --text-secondary: #8c8c8c;
         }
 
+        /* ========================================================================= */
+        /* 2. RESET E GERAL                                                          */
+        /* ========================================================================= */
+        body {
+            margin: 0;
+            background-color: var(--main-bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-light);
+            transition: background-color 0.5s ease;
+        }
+
+        /* Transições globais para animações suaves */
+        a, button, .nav-link, .card,
+        .sidebar, .topbar, .content-wrapper, .sticky-footer {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Efeito de Neon Glow no texto */
+        .neon-text {
+            color: var(--accent-color) !important;
+            text-shadow: var(--accent-glow);
+        }
+
+        /* ========================================================================= */
+        /* 3. SIDEBAR                                                                */
+        /* ========================================================================= */
         .sidebar {
-            width: 180px;
+            width: var(--sidebar-width);
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            background-color: #343a40;
-            color: white;
+            background-color: var(--bg-sidebar);
             z-index: 1000;
+            padding-top: var(--header-height);
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.6);
+            overflow-x: hidden;
         }
 
+        .sidebar-header {
+            background-color: var(--bg-dark);
+            padding: 1.5rem 0 !important;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .sidebar .nav-link {
+            padding: 1.2rem 1.8rem;
+            color: var(--text-secondary) !important;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: var(--text-light) !important;
+            background-color: #2a2a2a;
+            border-left-color: var(--accent-color);
+            transform: translateX(5px);
+            box-shadow: inset 5px 0 10px rgba(0, 188, 212, 0.1);
+        }
+
+        /* SUBMENU */
+        .sidebar .list-unstyled a {
+            padding-left: 3rem !important;
+            font-size: 0.9rem;
+            color: var(--text-light) !important;
+        }
+
+        /* ESTADO RECOLHIDO (COLLAPSED) */
+        #wrapper.sidebar-collapsed .sidebar {
+            width: var(--sidebar-width-collapsed);
+        }
+
+        #wrapper.sidebar-collapsed .sidebar .sidebar-header h4,
+        #wrapper.sidebar-collapsed .sidebar .sidebar-header small,
+        #wrapper.sidebar-collapsed .sidebar .nav-link span,
+        #wrapper.sidebar-collapsed .sidebar .fa-chevron-down,
+        #wrapper.sidebar-collapsed .sidebar .list-unstyled {
+            display: none;
+        }
+
+        #wrapper.sidebar-collapsed .sidebar .nav-link {
+            padding: 1.2rem 0;
+            text-align: center;
+        }
+
+        /* ========================================================================= */
+        /* 4. TOPBAR                                                                 */
+        /* ========================================================================= */
         .topbar {
-            margin-left: 180px;
-            height: 45px;
-            background-color: #343a40;
-            color: white;
+            margin-left: var(--sidebar-width);
+            height: var(--header-height);
+            background-color: var(--bg-dark);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
+            padding: 0 30px;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1030;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .topbar .title {
-            font-weight: bold;
-            font-size: 18px;
-            margin-left: -180px;
+            font-weight: 700;
+            font-size: 28px;
+            letter-spacing: 1.5px;
+            margin-left: 0;
+            margin-right: 20px;
         }
 
-        .logout a {
-            color: white;
-            text-decoration: none;
+        /* BOTÃO DE TOGGLE */
+        .navbar-toggler {
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            margin-right: 20px;
         }
 
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%2300bcd4' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* BARRA DE BUSCA */
+        .topbar .form-inline {
+            flex-grow: 1;
+            max-width: 450px;
+            margin-right: 5rem !important;
+            margin-left: auto !important;
+        }
+
+        .topbar .form-inline .form-control {
+            background-color: #ffffff !important;
+            color: #333333 !important;
+            border: none !important;
+            animation: none;
+        }
+
+        /* LOGOUT */
+        .topbar .logout a {
+            color: var(--text-light);
+            background-color: #2a2a2a;
+        }
+
+        .topbar .logout a:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        /* ========================================================================= */
+        /* 5. CONTEÚDO E RECOLHIMENTO (ATUALIZAÇÃO: TAMANHO MENOR)                   */
+        /* ========================================================================= */
         .content-wrapper {
-            margin-left: 180px;
-            margin-top: 45px;
-            padding: 20px;
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: 40px;
+            min-height: calc(100vh - var(--header-height));
         }
+
+        /* Classe Padrão para Blocos de Conteúdo */
+        .content-block {
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        /* Estilo para o Bloco de Informações (Formulário) */
+        .form-neon-box {
+            /* 1. Fundo Transparente (Burn-in) e Arredondamento */
+            background-color: rgba(31, 31, 31, 0.8) !important;
+            border-radius: 20px !important;
+            padding: 35px;
+            margin: 30px auto;
+
+            /* 2. Borda Verde Neon */
+            border: 2px solid var(--neon-green) !important;
+            box-shadow: var(--neon-green-glow), 0 0 25px rgba(0, 0, 0, 0.8);
+
+            /* 3. Redução de Tamanho (AGORA BEM MENOR) */
+            max-width: 450px; /* Reduzido para 450px */
+
+            color: var(--text-light);
+        }
+
+        /* AJUSTE DE MARGEM QUANDO RECOLHIDO */
+        #wrapper.sidebar-collapsed .topbar,
+        #wrapper.sidebar-collapsed .content-wrapper,
+        #wrapper.sidebar-collapsed .sticky-footer {
+            margin-left: var(--sidebar-width-collapsed);
+        }
+
+        /* CARDS */
+        .card {
+            background-color: #2a2a2a;
+            border: none !important;
+        }
+
+        .card:hover {
+            background-color: #333333;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ========================================================================= */
+        /* 6. INPUTS E FORMS                                                         */
+        /* ========================================================================= */
+        .form-control, .form-control:disabled, .form-control:read-only {
+            background-color: var(--input-bg) !important;
+            color: var(--text-light) !important;
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary) !important;
+            opacity: 1;
+        }
+
+        .form-control:focus {
+            background-color: #333333 !important;
+            border-color: var(--accent-color) !important;
+            box-shadow: var(--accent-glow), 0 0 0 0.2rem rgba(0, 188, 212, 0.25) !important;
+            animation: pulse-glow 1s infinite alternate;
+        }
+
+        /* ========================================================================= */
+        /* 7. BOTÕES                                                                 */
+        /* ========================================================================= */
+
+        /* CONFIRMAR/DESTAQUE (NEON) */
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-dark);
+            font-weight: 600;
+            box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+        }
+
+        .btn-primary:hover {
+            background-color: #0097a7;
+            border-color: #0097a7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.8), var(--accent-glow);
+        }
+
+        /* CANCELAR/SECUNDÁRIO (CINZA ESCURO) */
+        .btn-secondary, .btn-secondary:not(:disabled):not(.disabled):active {
+            background-color: var(--secondary-dark-color);
+            border-color: var(--secondary-dark-color);
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background-color: #495057;
+            border-color: #495057;
+            transform: translateY(-2px);
+        }
+
+        /* ========================================================================= */
+        /* 8. FOOTER                                                                 */
+        /* ========================================================================= */
+        .sticky-footer {
+            margin-left: var(--sidebar-width);
+            padding: 20px 30px;
+            background-color: #1f1f1f;
+            border-top: 1px solid #2a2a2a;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========================================================================= */
+        /* 9. ANIMAÇÕES KEYFRAMES                                                    */
+        /* ========================================================================= */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 188, 212, 0.4); }
+            100% { box-shadow: 0 0 0 5px rgba(0, 188, 212, 0); }
+        }
+
+        /* ========================================================================= */
+        /* 10. MODAL/POP-UP CUSTOMIZADO                                              */
+        /* ========================================================================= */
+
+        /* 1. Backdrop Transparente */
+        .modal-backdrop.show {
+            opacity: 0.6 !important;
+        }
+
+        /* 2. Conteúdo do Modal (O Pop-up em si) */
+        .modal-content {
+            background-color: rgba(31, 31, 31, 0.95) !important;
+            border-radius: 15px !important;
+            border: none !important;
+            box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
+        }
+
+        /* 3. Redução de Largura Máxima (Tamanho Menor) */
+        .modal-dialog {
+            max-width: 500px;
+            margin: 1.75rem auto;
+        }
+
+        /* Garante que o cabeçalho e corpo herdem o fundo transparente */
+        .modal-header, .modal-body, .modal-footer {
+            background-color: transparent !important;
+            border: none !important;
+        }
+
+        /* Estilo para títulos dentro do modal */
+        .modal-title {
+            color: var(--accent-color) !important;
+            text-shadow: var(--accent-glow);
+        }
+
     </style>
 </head>
 
 <body>
-<!-- Sidebar -->
-<nav class="sidebar d-flex flex-column p-3">
-    <br/>
-    <br/>
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#"><i class="fa fa-home"></i> Home Page</a>
-        <li class="nav-item">
-    <a class="nav-link text-white d-flex justify-content-between align-items-center collapsed"
-       data-toggle="collapse" href="#submenuClientes" aria-expanded="false">
-        <span><i class="fa fa-book me-2"></i> My Agenda</span>
-        <i class="fa fa-angle-down"></i>
-    </a>
-    <div id="submenuClientes" class="collapse">
-        <ul class="list-unstyled ps-3">
-            <li><a class="nav-link text-white" style="padding-left: 1rem;" href="">Add</a></li>
-            <li><a class="nav-link text-white" style="padding-left: 1rem;" href="#">List</a></li>
+<div id="wrapper">
+    <nav class="sidebar">
+        <div class="sidebar-header text-center">
+            <h4 class="mb-0 neon-text">Agendify <i class="fas fa-magic"></i></h4>
+            <small class="text-secondary">Dashboard Admin</small>
+        </div>
+        <ul class="navbar-nav flex-column mt-3">
+            <li class="nav-item">
+                <a class="nav-link active" href="#"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center collapsed"
+                    data-toggle="collapse" href="#submenuAgenda" aria-expanded="true">
+                    <span><i class="fas fa-book"></i> <span>Minha Agenda</span></span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div id="submenuAgenda" class="collapse show">
+                    <ul class="list-unstyled ps-3">
+                        <li><a class="nav-link text-white" href="{% url 'add_contato' %}"><i class="fas fa-user-plus"></i> <span>Novo Contato</span></a></li>
+                        <li><a class="nav-link text-white" href="{% url 'Listar_contato' %}"><i class="fas fa-clipboard-list"></i> <span>Listar Contatos</span></a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fas fa-cog"></i> <span>Configurações</span></a>
+            </li>
         </ul>
+    </nav>
+
+    <div class="topbar">
+        <button class="navbar-toggler" id="sidebarToggle" type="button" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="title neon-text">Agendify</div>
+
+        <form method="get" action="{% url 'buscar_contato' %}" class="form-inline">
+            <div class="input-group">
+                <input class="form-control"
+                        type="search"
+                        name="termo"
+                        value="{{ request.GET.termo }}"
+                        placeholder="Buscar por nome ou telefone..."
+                        aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+
+        <div class="logout">
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </div>
     </div>
-</li>
 
-    </ul>
-</nav>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    {%block conteudo%}
+                    {%endblock%}
 
-<!-- Topbar -->
-<div class="topbar">
-    <div class="title">Agendify</div>
-    <div class="logout">
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a>
-    </div>
-</div>
-
-<!-- Conteúdo principal -->
-
-<div class="content-wrapper">
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-
-                {%block conteudo%}
-
-
-                {%endblock%}
-
+                </div>
             </div>
         </div>
     </div>
+
+    <footer class="sticky-footer">
+        <div class="container-fluid">
+            <small>Agendify - Copyright &copy; 2025. Todos os direitos reservados. | Desenvolvido com <i class="fas fa-heart text-danger"></i> e paixão.</small>
+        </div>
+    </footer>
 </div>
 
-
-<!-- Footer -->
-<footer class="sticky-footer">
-    <div class="container text-center mt-1">
-        <small>Copyright &copy; 2025 <a href="#">AGENDA</a></small> Todos os direitos reservados.
-    </div>
-</footer>
-
-<!-- JavaScript -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static 'public/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'public/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-<script src="{% static 'public/bootstrap/vendor/chart.js/Chart.min.js' %}"></script>
-<script src="{% static 'public/bootstrap/vendor/datatables/jquery.dataTables.js' %}"></script>
-<script src="{% static 'public/bootstrap/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
-<script src="{% static 'public/bootstrap/js/sb-admin.min.js' %}"></script>
-<script src="{% static 'public/bootstrap/js/sb-admin-datatables.min.js' %}"></script>
-<script src="{% static 'public/bootstrap/js/sb-admin-charts.min.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/js/gijgo.min.js"></script>
 <script src="https://rawgit.com/RobinHerbots/Inputmask/4.x/dist/jquery.inputmask.bundle.js"></script>
+<script src="{% static 'public/bootstrap/js/sb-admin.min.js' %}"></script>
+
+<script>
+    // ------------------------------------------
+    // 1. TOGGLE DA SIDEBAR
+    // ------------------------------------------
+    $("#sidebarToggle").on('click', function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("sidebar-collapsed");
+    });
+
+    // ------------------------------------------
+    // 2. ANIMAÇÃO DE SUBMENU
+    // ------------------------------------------
+    $('#submenuAgenda').on('show.bs.collapse', function () {
+        $('a[href="#submenuAgenda"] i.fa-chevron-down').css('transform', 'rotate(180deg)');
+    });
+    $('#submenuAgenda').on('hide.bs.collapse', function () {
+        $('a[href="#submenuAgenda"] i.fa-chevron-down').css('transform', 'rotate(0deg)');
+    });
+</script>
 </body>
 </html>

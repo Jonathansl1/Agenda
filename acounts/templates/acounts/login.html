@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendify - Login Clean Estático</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* ========================================================================= */
+        /* 1. VARIÁVEIS GLOBAIS                                */
+        /* ========================================================================= */
+        :root {
+            --bg-dark: #121212;
+            --main-bg-color: var(--bg-dark);
+
+            /* Cores NEON */
+            --accent-color: #00bcd4; /* Ciano (Principal) */
+            --accent-glow: 0 0 15px rgba(0, 188, 212, 0.9);
+
+            --neon-green: #39ff14; /* Verde Neon */
+            --green-glow: 0 0 15px rgba(57, 255, 20, 0.9);
+
+            /* Cores Neutras */
+            --input-bg: #2a2a2a;
+            --card-bg: #1f1f1f;
+            --text-light: #e0e0e0;
+            --text-secondary: #666664;
+        }
+
+        /* ========================================================================= */
+        /* 2. LAYOUT, BODY (Fundo liso)                  */
+        /* ========================================================================= */
+        body {
+            background-color: var(--main-bg-color); /* Fundo sólido e liso */
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            /* Animações e imagens de fundo REMOVIDAS */
+        }
+
+        .neon-text {
+            color: var(--accent-color) !important;
+            text-shadow: var(--accent-glow);
+            transition: all 0.5s ease;
+        }
+
+        /* ========================================================================= */
+        /* 3. CARD DE LOGIN (Borda Estática)                    */
+        /* ========================================================================= */
+        .login-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+
+            /* NOVO: Borda estática e sombra Neon */
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), var(--accent-glow);
+            animation: fadeIn 1s ease-out;
+
+            /* O Efeito Liquid Neon (::before e @keyframes neon-liquid) foi REMOVIDO */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================================================= */
+        /* 4. INPUTS E ANIMAÇÕES DE FOCO                       */
+        /* ========================================================================= */
+        .form-group:focus-within label i {
+            color: #fff !important;
+            text-shadow: var(--accent-glow);
+            animation: icon-flicker 1.5s infinite step-end;
+        }
+
+        @keyframes icon-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .form-control {
+            background-color: var(--input-bg) !important;
+            color: var(--text-light) !important;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background-color: #333333 !important;
+            border-color: var(--accent-color) !important;
+            box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25) !important;
+        }
+
+        /* ========================================================================= */
+        /* 5. BOTÕES (AZUL CIANO E VERDE NEON)                 */
+        /* ========================================================================= */
+
+        /* Botão Principal (Azul Ciano) */
+        .btn-neon {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-dark);
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 0 15px rgba(0, 188, 212, 0.8);
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 8px;
+            transition: all 0.3s ease, transform 0.1s ease;
+        }
+
+        .btn-neon:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 188, 212, 1.0), var(--accent-glow);
+        }
+
+        /* Botão Secundário (Verde Neon) - Esqueceu a Senha */
+        .btn-neon-green {
+            background-color: #0d1a0d;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            font-weight: 600;
+            padding: 8px 15px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-neon-green:hover {
+            background-color: rgba(57, 255, 20, 0.1);
+            color: #fff;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px var(--neon-green), var(--green-glow);
+        }
+
+        /* Estilo para o botão de cadastro fora do card */
+        .btn-cadastro-out {
+            margin-top: 30px;
+            padding: 10px 30px;
+            background-color: transparent;
+            border: 2px solid var(--text-secondary);
+            color: var(--text-secondary);
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cadastro-out:hover {
+            background-color: rgba(0, 188, 212, 0.1);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            text-shadow: var(--accent-glow);
+            text-decoration: none;
+        }
+
+        /* ========================================================================= */
+        /* 6. LINKS E OPÇÕES                                 */
+        /* ========================================================================= */
+        .additional-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+
+    <h1 class="text-center">
+        <span class="neon-text">AGENDIFY</span>
+    </h1>
+    <p class="text-center mb-5" style="color: var(--text-secondary); font-size: 1.1rem; letter-spacing: 1px;">
+        <i class="fas fa-fingerprint"></i> Autenticação de Acesso
+    </p>
+
+    <form action="/dashboard" method="POST">
+
+        <div class="form-group">
+            <label for="inputEmail" class="neon-text"><i class="fas fa-envelope"></i> E-mail</label>
+            <input type="email"
+                   class="form-control"
+                   id="inputEmail"
+                   name="email"
+                   placeholder="seu.email@exemplo.com"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="inputPassword" class="neon-text"><i class="fas fa-key"></i> Senha</label>
+            <input type="password"
+                   class="form-control"
+                   id="inputPassword"
+                   name="password"
+                   placeholder="Sua senha secreta"
+                   required>
+        </div>
+
+        <div class="d-flex justify-content-end additional-links mt-4 mb-4">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="checkRemember">
+                <label class="form-check-label" for="checkRemember">
+                    Manter conectado
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-neon mb-3">
+            <i class="fas fa-sign-in-alt"></i> ENTRAR NO SISTEMA
+        </button>
+
+        <a href="#" class="btn btn-neon-green">
+             <i class="fas fa-question-circle"></i> Esqueci a Senha
+        </a>
+    </form>
+</div>
+
+<a href="#" class="btn-cadastro-out">
+    Ainda não tem conta? **Cadastre-se**
+</a>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
