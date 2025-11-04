@@ -1,17 +1,19 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Agendify - Base Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agendify - Interface Cyberpunk</title>
 
     <link rel="stylesheet" href="{% static 'public/bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <style>
         /* ========================================================================= */
-        /* 1. VARIÁVEIS GLOBAIS                                                      */
+        /* 1. VARIÁVEIS GLOBAIS - VERDE NEON                                        */
         /* ========================================================================= */
         :root {
             /* Dimensões */
@@ -22,50 +24,105 @@
             /* Cores Base */
             --bg-dark: #121212;
             --bg-sidebar: #1f1f1f;
-            --main-bg-color: var(--bg-dark);
+            --main-bg-color: #050505; /* Fundo ainda mais escuro */
+            --semi-dark: #1d1d1d;
 
-            /* Cores de Destaque */
-            --accent-color: #00bcd4; /* AZUL NEON */
-            --accent-glow: 0 0 10px rgba(0, 188, 212, 0.7);
-
-            /* Verde Neon para a borda do formulário */
-            --neon-green: #39ff14; /* Verde brilhante */
-            --neon-green-glow: 0 0 8px rgba(57, 255, 20, 0.8), 0 0 15px rgba(57, 255, 20, 0.4);
+            /* Cores de Destaque - VERDE NEON */
+            --accent-color: #00ff6a;
+            --accent-glow: 0 0 12px rgba(0, 255, 106, 0.8), 0 0 25px rgba(0, 255, 106, 0.6);
 
             /* Cores Neutras */
-            --secondary-dark-color: #343a40; /* Cinza Escuro (Cancelar) */
-            --input-bg: #2a2a2a; /* Fundo do Input */
+            --secondary-dark-color: #343a40;
+            --input-bg: rgba(34, 34, 34, 0.7); /* Input com um pouco mais de transparência */
 
             /* Cores de Texto */
             --text-light: #e0e0e0;
             --text-secondary: #8c8c8c;
+
+            /* Glassmorphism Neon */
+            --glass-bg: rgba(255, 255, 255, 0.05); /* Fundo muito transparente */
+            --glass-border: rgba(0, 255, 106, 0.4);
+            --glass-card-bg: rgba(10, 10, 10, 0.6); /* Cor de fundo mais escura para cards glass */
         }
 
         /* ========================================================================= */
-        /* 2. RESET E GERAL                                                          */
+        /* 2. RESET E GERAL - COM ANIMAÇÃO DE FUNDO CYBERPUNK                        */
         /* ========================================================================= */
         body {
             margin: 0;
             background-color: var(--main-bg-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Fonte principal mais pixelada */
+            font-family: 'Press Start 2P', cursive; /* Fonte principal */
             color: var(--text-light);
-            transition: background-color 0.5s ease;
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            z-index: 0;
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.95)); /* Fundo mais escuro */
+            font-size: 0.85rem; /* Ajuste para melhor legibilidade da Press Start 2P */
         }
 
-        /* Transições globais para animações suaves */
-        a, button, .nav-link, .card,
-        .sidebar, .topbar, .content-wrapper, .sticky-footer {
-            transition: all 0.3s ease-in-out;
+        #wrapper {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
         }
 
-        /* Efeito de Neon Glow no texto */
+        /* Ajuste de tamanho da fonte para títulos e elementos maiores */
+        h1, h2, h3, h4, h5, h6, .navbar-brand, .neon-text.title {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
         .neon-text {
             color: var(--accent-color) !important;
             text-shadow: var(--accent-glow);
         }
 
+        /* ANIMAÇÃO DE FUNDO - Rastros de Código (Mantido) */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .background li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 5px;
+            height: 5px;
+            background: var(--accent-color);
+            box-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color);
+            animation: trail-animation 15s linear infinite;
+            opacity: 0;
+        }
+
+        .background li:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+        .background li:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 7s; }
+        .background li:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 15s; }
+        .background li:nth-child(4) { left: 40%; animation-delay: 0s; animation-duration: 10s; }
+        .background li:nth-child(5) { left: 50%; animation-delay: 1s; animation-duration: 20s; }
+        .background li:nth-child(6) { left: 60%; animation-delay: 3s; animation-duration: 14s; }
+        .background li:nth-child(7) { left: 70%; animation-delay: 5s; animation-duration: 9s; }
+        .background li:nth-child(8) { left: 80%; animation-delay: 8s; animation-duration: 18s; }
+        .background li:nth-child(9) { left: 90%; animation-delay: 1s; animation-duration: 11s; }
+        .background li:nth-child(10) { left: 5%; animation-delay: 6s; animation-duration: 13s; }
+
+        @keyframes trail-animation {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
         /* ========================================================================= */
-        /* 3. SIDEBAR                                                                */
+        /* 3. SIDEBAR (Estilos Mantidos)                                             */
         /* ========================================================================= */
         .sidebar {
             width: var(--sidebar-width);
@@ -80,54 +137,16 @@
             overflow-x: hidden;
         }
 
-        .sidebar-header {
-            background-color: var(--bg-dark);
-            padding: 1.5rem 0 !important;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .sidebar .nav-link {
-            padding: 1.2rem 1.8rem;
-            color: var(--text-secondary) !important;
-            border-left: 4px solid transparent;
-            font-weight: 500;
-        }
-
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
             color: var(--text-light) !important;
-            background-color: #2a2a2a;
+            background-color: var(--semi-dark); /* Fundo mais escuro no hover */
             border-left-color: var(--accent-color);
             transform: translateX(5px);
-            box-shadow: inset 5px 0 10px rgba(0, 188, 212, 0.1);
-        }
-
-        /* SUBMENU */
-        .sidebar .list-unstyled a {
-            padding-left: 3rem !important;
-            font-size: 0.9rem;
-            color: var(--text-light) !important;
-        }
-
-        /* ESTADO RECOLHIDO (COLLAPSED) */
-        #wrapper.sidebar-collapsed .sidebar {
-            width: var(--sidebar-width-collapsed);
-        }
-
-        #wrapper.sidebar-collapsed .sidebar .sidebar-header h4,
-        #wrapper.sidebar-collapsed .sidebar .sidebar-header small,
-        #wrapper.sidebar-collapsed .sidebar .nav-link span,
-        #wrapper.sidebar-collapsed .sidebar .fa-chevron-down,
-        #wrapper.sidebar-collapsed .sidebar .list-unstyled {
-            display: none;
-        }
-
-        #wrapper.sidebar-collapsed .sidebar .nav-link {
-            padding: 1.2rem 0;
-            text-align: center;
+            box-shadow: inset 5px 0 10px rgba(0, 255, 106, 0.1);
         }
 
         /* ========================================================================= */
-        /* 4. TOPBAR                                                                 */
+        /* 4. TOPBAR (Estilos Mantidos)                                              */
         /* ========================================================================= */
         .topbar {
             margin-left: var(--sidebar-width);
@@ -142,225 +161,170 @@
             right: 0;
             z-index: 1030;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            width: calc(100% - var(--sidebar-width));
         }
 
-        .topbar .title {
-            font-weight: 700;
-            font-size: 28px;
-            letter-spacing: 1.5px;
-            margin-left: 0;
-            margin-right: 20px;
-        }
-
-        /* BOTÃO DE TOGGLE */
-        .navbar-toggler {
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            margin-right: 20px;
-        }
-
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%2300bcd4' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        /* BARRA DE BUSCA */
-        .topbar .form-inline {
-            flex-grow: 1;
-            max-width: 450px;
-            margin-right: 5rem !important;
-            margin-left: auto !important;
-        }
-
-        .topbar .form-inline .form-control {
-            background-color: #ffffff !important;
-            color: #333333 !important;
-            border: none !important;
-            animation: none;
-        }
-
-        /* LOGOUT */
-        .topbar .logout a {
-            color: var(--text-light);
-            background-color: #2a2a2a;
-        }
-
-        .topbar .logout a:hover {
-            background-color: var(--accent-color);
-            color: var(--bg-dark);
+        #wrapper.sidebar-collapsed .topbar {
+            width: calc(100% - var(--sidebar-width-collapsed));
         }
 
         /* ========================================================================= */
-        /* 5. CONTEÚDO E RECOLHIMENTO (ATUALIZAÇÃO: TAMANHO MENOR)                   */
+        /* 5. CONTEÚDO PRINCIPAL (CONTENT-WRAPPER) E CAIXAS NEON                     */
         /* ========================================================================= */
         .content-wrapper {
             margin-left: var(--sidebar-width);
             margin-top: var(--header-height);
             padding: 40px;
             min-height: calc(100vh - var(--header-height));
+            flex-grow: 1;
+            padding-bottom: 80px;
         }
 
-        /* Classe Padrão para Blocos de Conteúdo */
-        .content-block {
-            background-color: #1f1f1f;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
-        }
-
-        /* Estilo para o Bloco de Informações (Formulário) */
-        .form-neon-box {
-            /* 1. Fundo Transparente (Burn-in) e Arredondamento */
-            background-color: rgba(31, 31, 31, 0.8) !important;
-            border-radius: 20px !important;
-            padding: 35px;
-            margin: 30px auto;
-
-            /* 2. Borda Verde Neon */
-            border: 2px solid var(--neon-green) !important;
-            box-shadow: var(--neon-green-glow), 0 0 25px rgba(0, 0, 0, 0.8);
-
-            /* 3. Redução de Tamanho (AGORA BEM MENOR) */
-            max-width: 450px; /* Reduzido para 450px */
-
-            color: var(--text-light);
-        }
-
-        /* AJUSTE DE MARGEM QUANDO RECOLHIDO */
-        #wrapper.sidebar-collapsed .topbar,
-        #wrapper.sidebar-collapsed .content-wrapper,
-        #wrapper.sidebar-collapsed .sticky-footer {
+        #wrapper.sidebar-collapsed .content-wrapper {
             margin-left: var(--sidebar-width-collapsed);
         }
 
-        /* CARDS */
-        .card {
-            background-color: #2a2a2a;
-            border: none !important;
+        /* Form Box e Default Content Box com Glassmorphism aprimorado */
+        .form-neon-box, .default-content-box, .card {
+            background-color: var(--glass-card-bg); /* Fundo mais escuro e transparente para cards/boxes */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px !important;
+            padding: 45px 60px;
+            margin: 30px auto;
+            max-width: 900px; /* Ajuste para o form-neon-box */
+            width: 100%;
+            border: 3px solid var(--glass-border) !important; /* Borda mais transparente */
+            box-shadow: var(--accent-glow), 0 0 40px rgba(0, 0, 0, 0.8);
+            color: var(--text-light);
+            position: relative;
+            z-index: 2;
         }
 
-        .card:hover {
-            background-color: #333333;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        .default-content-box {
+            text-align: center;
+            padding: 50px; /* Mais padding para o placeholder */
         }
 
-        /* ========================================================================= */
-        /* 6. INPUTS E FORMS                                                         */
-        /* ========================================================================= */
-        .form-control, .form-control:disabled, .form-control:read-only {
+        /* Estilos de Input e Botões (Mantido com pequenos ajustes) */
+        .form-control, .form-control:disabled, .form-control:read-only, textarea {
             background-color: var(--input-bg) !important;
             color: var(--text-light) !important;
-            border: 1px solid #3a3a3a;
-            border-radius: 6px;
+            border: 1px solid rgba(58, 58, 58, 0.5); /* Borda mais suave */
+            border-radius: 10px;
+            padding: 0.9rem 1.2rem !important;
+            font-size: 0.9rem !important; /* Ajuste para a nova fonte */
+            font-family: 'Press Start 2P', cursive;
         }
 
-        .form-control::placeholder {
-            color: var(--text-secondary) !important;
-            opacity: 1;
-        }
-
-        .form-control:focus {
-            background-color: #333333 !important;
+        .form-control:focus, textarea:focus {
+            background-color: rgba(40, 40, 40, 0.8) !important;
             border-color: var(--accent-color) !important;
-            box-shadow: var(--accent-glow), 0 0 0 0.2rem rgba(0, 188, 212, 0.25) !important;
-            animation: pulse-glow 1s infinite alternate;
+            box-shadow: 0 0 8px var(--accent-color), 0 0 0 0.3rem rgba(0, 255, 106, 0.3) !important;
+            animation: pulse-glow 1.5s infinite alternate;
         }
 
-        /* ========================================================================= */
-        /* 7. BOTÕES                                                                 */
-        /* ========================================================================= */
+        /* Gijgo Datepicker Override - Ajustes para transparência */
+        .gj-datepicker-bootstrap input {
+            color: var(--text-light) !important;
+            background-color: var(--input-bg) !important;
+        }
 
-        /* CONFIRMAR/DESTAQUE (NEON) */
+        .gj-modal {
+            background-color: rgba(0, 0, 0, 0.9) !important; /* Modal mais escuro */
+        }
+
+        .gj-picker {
+            background-color: var(--bg-dark) !important; /* Picker mais escuro */
+            border: 1px solid var(--accent-color) !important;
+            box-shadow: var(--accent-glow) !important;
+            color: var(--text-light) !important;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem; /* Ajuste para a fonte */
+        }
+
+        .gj-picker table tr td div, .gj-picker table tr th {
+            color: var(--text-light) !important;
+        }
+
+        .gj-picker table tr td.gj-selected div {
+             background-color: var(--accent-color) !important;
+             color: var(--bg-dark) !important;
+             box-shadow: none !important;
+        }
+
+        .gj-picker table tr td.gj-today div {
+            border: 1px solid var(--accent-color) !important;
+        }
+
+        .gj-picker table tr td.gj-other-month div {
+            color: var(--text-secondary) !important;
+        }
+
+        /* Botões - Pequeno ajuste */
         .btn-primary {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
+            background: linear-gradient(to right, #00b347, var(--accent-color));
+            border: none;
             color: var(--bg-dark);
-            font-weight: 600;
-            box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 12px rgba(0, 255, 106, 0.8);
+            border-radius: 10px;
+            padding: 0.9rem 2rem;
+            font-size: 1rem; /* Ajuste para a nova fonte */
+            font-family: 'Orbitron', sans-serif; /* Botões talvez fiquem melhor com Orbitron */
         }
-
-        .btn-primary:hover {
-            background-color: #0097a7;
-            border-color: #0097a7;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.8), var(--accent-glow);
-        }
-
-        /* CANCELAR/SECUNDÁRIO (CINZA ESCURO) */
-        .btn-secondary, .btn-secondary:not(:disabled):not(.disabled):active {
-            background-color: var(--secondary-dark-color);
-            border-color: var(--secondary-dark-color);
+        .btn-secondary {
+            background-color: rgba(74, 74, 74, 0.7); /* Mais transparente */
+            border-color: rgba(74, 74, 74, 0.7);
             color: var(--text-light);
-            font-weight: 500;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 0.9rem 2rem;
+            font-size: 1rem; /* Ajuste para a nova fonte */
+            font-family: 'Orbitron', sans-serif;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(108, 117, 125, 0.8);
+            border-color: rgba(108, 117, 125, 0.8);
         }
 
-        .btn-secondary:hover {
-            background-color: #495057;
-            border-color: #495057;
-            transform: translateY(-2px);
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 106, 0.3); }
+            100% { box-shadow: 0 0 0 7px rgba(0, 255, 106, 0); }
         }
 
         /* ========================================================================= */
-        /* 8. FOOTER                                                                 */
+        /* 8. FOOTER (Mantido)                                                       */
         /* ========================================================================= */
         .sticky-footer {
+            width: calc(100% - var(--sidebar-width));
             margin-left: var(--sidebar-width);
             padding: 20px 30px;
-            background-color: #1f1f1f;
+            background-color: var(--bg-sidebar); /* Fundo do footer mais escuro */
             border-top: 1px solid #2a2a2a;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem; /* Ajuste para a nova fonte */
             color: var(--text-secondary);
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
         }
 
-        /* ========================================================================= */
-        /* 9. ANIMAÇÕES KEYFRAMES                                                    */
-        /* ========================================================================= */
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(0, 188, 212, 0.4); }
-            100% { box-shadow: 0 0 0 5px rgba(0, 188, 212, 0); }
-        }
-
-        /* ========================================================================= */
-        /* 10. MODAL/POP-UP CUSTOMIZADO                                              */
-        /* ========================================================================= */
-
-        /* 1. Backdrop Transparente */
-        .modal-backdrop.show {
-            opacity: 0.6 !important;
-        }
-
-        /* 2. Conteúdo do Modal (O Pop-up em si) */
-        .modal-content {
-            background-color: rgba(31, 31, 31, 0.95) !important;
-            border-radius: 15px !important;
-            border: none !important;
-            box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
-        }
-
-        /* 3. Redução de Largura Máxima (Tamanho Menor) */
-        .modal-dialog {
-            max-width: 500px;
-            margin: 1.75rem auto;
-        }
-
-        /* Garante que o cabeçalho e corpo herdem o fundo transparente */
-        .modal-header, .modal-body, .modal-footer {
-            background-color: transparent !important;
-            border: none !important;
-        }
-
-        /* Estilo para títulos dentro do modal */
-        .modal-title {
-            color: var(--accent-color) !important;
-            text-shadow: var(--accent-glow);
+        #wrapper.sidebar-collapsed .sticky-footer {
+            margin-left: var(--sidebar-width-collapsed);
+            width: calc(100% - var(--sidebar-width-collapsed));
         }
 
     </style>
 </head>
 
 <body>
+<ul class="background">
+    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+
 <div id="wrapper">
     <nav class="sidebar">
         <div class="sidebar-header text-center">
@@ -397,7 +361,7 @@
 
         <div class="title neon-text">Agendify</div>
 
-        <form method="get" action="{% url 'buscar_contato' %}" class="form-inline">
+        <form method="get" action="{% url 'buscar_contato' %}" class="form-inline ml-auto">
             <div class="input-group">
                 <input class="form-control"
                         type="search"
@@ -420,10 +384,18 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-lg-12">
-                    {%block conteudo%}
-                    {%endblock%}
 
-                </div>
+                    {% block conteudo %}
+
+                        <div class="default-content-box">
+                            <i class="fas fa-terminal fa-3x neon-text mb-3"></i>
+                            <h1 class="neon-text">Interface de Acesso Liberada</h1>
+                            <p class="text-light mt-4">Bem-vindo, Agente. Use a barra lateral para navegar entre os módulos. O sistema está **Online**.</p>
+                            <a href="{% url 'add_contato' %}" class="btn btn-primary mt-3">Iniciar Novo Registro</a>
+                        </div>
+
+                    {% endblock conteudo %}
+                    </div>
             </div>
         </div>
     </div>
@@ -452,13 +424,43 @@
     });
 
     // ------------------------------------------
-    // 2. ANIMAÇÃO DE SUBMENU
+    // 2. ANIMAÇÃO SUAVE DE SUBMENU
     // ------------------------------------------
     $('#submenuAgenda').on('show.bs.collapse', function () {
         $('a[href="#submenuAgenda"] i.fa-chevron-down').css('transform', 'rotate(180deg)');
     });
     $('#submenuAgenda').on('hide.bs.collapse', function () {
         $('a[href="#submenuAgenda"] i.fa-chevron-down').css('transform', 'rotate(0deg)');
+    });
+
+    // ------------------------------------------
+    // 3. DATAPICKER E INPUTMASKS (Obrigatórios para o formulário)
+    // ------------------------------------------
+    $(document).ready(function() {
+        // Inicializa o datepicker
+        $('#id_nascimento').datepicker({
+            uiLibrary: 'bootstrap4',
+            format: 'dd/mm/yyyy',
+            icons: {
+                rightIcon: '<i class="fas fa-calendar-alt"></i>'
+            }
+        });
+
+        // Aplica inputmask para telefone
+        $('#id_telefone').inputmask();
+
+        // ------------------------------------------
+        // 4. ATUALIZAÇÃO DO NOME DO ARQUIVO NO INPUT FILE CUSTOMIZADO
+        // ------------------------------------------
+        $('#id_foto').on('change', function() {
+            var fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').html(fileName);
+            if (fileName) {
+                $(this).next('.custom-file-label').addClass('selected').attr('data-title', fileName);
+            } else {
+                $(this).next('.custom-file-label').removeClass('selected').html('Selecionar arquivo...');
+            }
+        });
     });
 </script>
 </body>

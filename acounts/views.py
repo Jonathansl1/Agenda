@@ -15,4 +15,4 @@ def login(request):
             messages.success(request, 'Sucesso!')
             return redirect('Listar_contato')
     messages.error(request, 'Email ou senha incorreta')
-    return redirect('login')
+    return redirect('Listar_contato')

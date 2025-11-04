@@ -2,49 +2,59 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Agendify - Login Clean Estático</title>
+    <title>Agendify - Login [ACCESS_REQUIRED]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <style>
         /* ========================================================================= */
-        /* 1. VARIÁVEIS GLOBAIS                                */
+        /* 1. VARIÁVEIS GLOBAIS - PADRÃO VERDE NEON DO DASHBOARD (Mantidas)          */
         /* ========================================================================= */
         :root {
+            /* Cores Base */
             --bg-dark: #121212;
-            --main-bg-color: var(--bg-dark);
+            --main-bg-color: #050505;
 
-            /* Cores NEON */
-            --accent-color: #00bcd4; /* Ciano (Principal) */
-            --accent-glow: 0 0 15px rgba(0, 188, 212, 0.9);
+            /* Cores de Destaque - VERDE NEON PRINCIPAL */
+            --accent-color: #00ff6a;
+            --accent-glow: 0 0 12px rgba(0, 255, 106, 0.8), 0 0 25px rgba(0, 255, 106, 0.6);
 
-            --neon-green: #39ff14; /* Verde Neon */
-            --green-glow: 0 0 15px rgba(57, 255, 20, 0.9);
-
-            /* Cores Neutras */
-            --input-bg: #2a2a2a;
-            --card-bg: #1f1f1f;
+            /* Cores Neutras e Transparências */
+            --input-bg: rgba(34, 34, 34, 0.7);
+            --card-bg: rgba(10, 10, 10, 0.7);
+            --glass-border: rgba(0, 255, 106, 0.4);
             --text-light: #e0e0e0;
-            --text-secondary: #666664;
+            --text-secondary: #8c8c8c;
+            --btn-secondary-bg: rgba(74, 74, 74, 0.7);
         }
 
         /* ========================================================================= */
-        /* 2. LAYOUT, BODY (Fundo liso)                  */
+        /* 2. LAYOUT, BODY (Fundo Animado) E FONTES (Mantidos)                       */
         /* ========================================================================= */
         body {
-            background-color: var(--main-bg-color); /* Fundo sólido e liso */
+            background-color: var(--main-bg-color);
             color: var(--text-light);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden;
-            /* Animações e imagens de fundo REMOVIDAS */
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.95));
+            z-index: 0;
+        }
+
+        /* Fontes para Títulos */
+        h1, h2, h3, h4, h5, h6, .btn-neon, .btn-neon-green {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
 
         .neon-text {
@@ -53,193 +63,255 @@
             transition: all 0.5s ease;
         }
 
+        /* --- Fundo que "Mexe" (Animação de Código) --- */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .background li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 5px;
+            height: 5px;
+            background: var(--accent-color);
+            box-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color);
+            animation: trail-animation 15s linear infinite;
+            opacity: 0;
+        }
+
+        /* Posições e Duração dos Rastros (Mantido) */
+        .background li:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+        .background li:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 7s; }
+        .background li:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 15s; }
+        .background li:nth-child(4) { left: 40%; animation-delay: 0s; animation-duration: 10s; }
+        .background li:nth-child(5) { left: 50%; animation-delay: 1s; animation-duration: 20s; }
+        .background li:nth-child(6) { left: 60%; animation-delay: 3s; animation-duration: 14s; }
+        .background li:nth-child(7) { left: 70%; animation-delay: 5s; animation-duration: 9s; }
+        .background li:nth-child(8) { left: 80%; animation-delay: 8s; animation-duration: 18s; }
+        .background li:nth-child(9) { left: 90%; animation-delay: 1s; animation-duration: 11s; }
+        .background li:nth-child(10) { left: 5%; animation-delay: 6s; animation-duration: 13s; }
+
+        @keyframes trail-animation {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        /* --- Fim do Fundo Animado --- */
+
+
         /* ========================================================================= */
-        /* 3. CARD DE LOGIN (Borda Estática)                    */
+        /* 3. CARD DE LOGIN (Mantido)                                                */
         /* ========================================================================= */
         .login-card {
             background-color: var(--card-bg);
-            padding: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 50px 40px;
             border-radius: 20px;
-            max-width: 420px;
+            max-width: 450px;
             width: 100%;
             position: relative;
             z-index: 10;
-
-            /* NOVO: Borda estática e sombra Neon */
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), var(--accent-glow);
+            border: 3px solid var(--glass-border);
+            box-shadow: var(--accent-glow), 0 0 40px rgba(0, 0, 0, 0.8);
             animation: fadeIn 1s ease-out;
-
-            /* O Efeito Liquid Neon (::before e @keyframes neon-liquid) foi REMOVIDO */
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
+        .login-card p {
+            font-size: 0.7rem !important;
+            letter-spacing: 1px;
         }
-
         /* ========================================================================= */
-        /* 4. INPUTS E ANIMAÇÕES DE FOCO                       */
+        /* 4. INPUTS E ANIMAÇÕES DE FOCO (Mantido)                                   */
         /* ========================================================================= */
-        .form-group:focus-within label i {
-            color: #fff !important;
-            text-shadow: var(--accent-glow);
-            animation: icon-flicker 1.5s infinite step-end;
-        }
-
-        @keyframes icon-flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
         .form-control {
             background-color: var(--input-bg) !important;
             color: var(--text-light) !important;
             border: 1px solid #3a3a3a;
-            border-radius: 8px;
-            padding: 12px 15px;
+            border-radius: 10px;
+            padding: 15px 15px;
             transition: all 0.3s ease;
+            font-size: 0.9rem !important;
+            font-family: 'Press Start 2P', cursive;
+            border-right: none;
         }
 
         .form-control:focus {
-            background-color: #333333 !important;
+            background-color: rgba(30, 30, 30, 0.9) !important;
             border-color: var(--accent-color) !important;
-            box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25) !important;
+            box-shadow: 0 0 8px var(--accent-color), 0 0 0 0.3rem rgba(0, 255, 106, 0.3) !important;
+            animation: pulse-glow 1.5s infinite alternate;
+            z-index: 3;
+        }
+        .input-group-append .btn-neon-toggle {
+            background-color: var(--input-bg);
+            border: 1px solid #3a3a3a;
+            border-left: none;
+            color: var(--text-secondary);
+            border-radius: 0 10px 10px 0;
+            padding: 0 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        /* ========================================================================= */
-        /* 5. BOTÕES (AZUL CIANO E VERDE NEON)                 */
-        /* ========================================================================= */
-
-        /* Botão Principal (Azul Ciano) */
-        .btn-neon {
-            background-color: var(--accent-color);
+        .input-group-append .btn-neon-toggle:hover {
+            color: var(--accent-color);
+            background-color: rgba(40, 40, 40, 0.9);
+            text-shadow: var(--accent-glow);
             border-color: var(--accent-color);
+        }
+        .input-group > .form-control:not(:last-child) {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        /* ========================================================================= */
+        /* 5. BOTÕES (VERDE NEON) -- (Mantidos)                                      */
+        /* ========================================================================= */
+        .btn-neon {
+            background: linear-gradient(to right, #00b347, var(--accent-color)) !important;
+            border: none !important;
             color: var(--bg-dark);
             font-weight: 700;
             font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(0, 188, 212, 0.8);
+            box-shadow: 0 0 12px rgba(0, 255, 106, 0.8);
             padding: 12px 0;
             width: 100%;
-            border-radius: 8px;
-            transition: all 0.3s ease, transform 0.1s ease;
+            border-radius: 10px;
         }
-
-        .btn-neon:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0, 188, 212, 1.0), var(--accent-glow);
-        }
-
-        /* Botão Secundário (Verde Neon) - Esqueceu a Senha */
         .btn-neon-green {
-            background-color: #0d1a0d;
-            border: 1px solid var(--neon-green);
-            color: var(--neon-green);
-            font-weight: 600;
-            padding: 8px 15px;
+            background-color: transparent !important;
+            border: 2px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 12px 15px;
             width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+            border-radius: 10px;
             transition: all 0.3s ease;
             text-align: center;
         }
-
-        .btn-neon-green:hover {
-            background-color: rgba(57, 255, 20, 0.1);
-            color: #fff;
-            transform: scale(1.02);
-            box-shadow: 0 0 20px var(--neon-green), var(--green-glow);
-        }
-
-        /* Estilo para o botão de cadastro fora do card */
         .btn-cadastro-out {
             margin-top: 30px;
-            padding: 10px 30px;
+            padding: 12px 40px;
             background-color: transparent;
-            border: 2px solid var(--text-secondary);
+            border: 2px solid var(--glass-border);
             color: var(--text-secondary);
             font-weight: 500;
-            border-radius: 8px;
+            border-radius: 10px;
             transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
         }
 
         .btn-cadastro-out:hover {
-            background-color: rgba(0, 188, 212, 0.1);
+            background-color: rgba(0, 255, 106, 0.1);
             color: var(--accent-color);
             border-color: var(--accent-color);
             text-shadow: var(--accent-glow);
             text-decoration: none;
         }
 
-        /* ========================================================================= */
-        /* 6. LINKS E OPÇÕES                                 */
-        /* ========================================================================= */
-        .additional-links a {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-
     </style>
 </head>
 <body>
+
+<ul class="background">
+    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
 
 <div class="login-card">
 
     <h1 class="text-center">
         <span class="neon-text">AGENDIFY</span>
     </h1>
-    <p class="text-center mb-5" style="color: var(--text-secondary); font-size: 1.1rem; letter-spacing: 1px;">
-        <i class="fas fa-fingerprint"></i> Autenticação de Acesso
+    <p class="text-center mb-5" style="color: var(--text-secondary);">
+        <i class="fas fa-fingerprint"></i> INÍCIO DE SESSÃO
     </p>
 
-    <form action="/dashboard" method="POST">
 
+    {% if not user.is_authenticated %}
+    <form action="{% url 'login'%}" method="POST">
+        {% csrf_token %}
         <div class="form-group">
-            <label for="inputEmail" class="neon-text"><i class="fas fa-envelope"></i> E-mail</label>
-            <input type="email"
+            <label for="username" class="neon-text"><i class="fas fa-user"></i> Usuário</label>
+            <input type="text"
                    class="form-control"
-                   id="inputEmail"
-                   name="email"
-                   placeholder="seu.email@exemplo.com"
-                   required>
+                   id="username"
+                   name="username"
+                   placeholder="seu.usuario" required>
         </div>
 
         <div class="form-group">
-            <label for="inputPassword" class="neon-text"><i class="fas fa-key"></i> Senha</label>
-            <input type="password"
-                   class="form-control"
-                   id="inputPassword"
-                   name="password"
-                   placeholder="Sua senha secreta"
-                   required>
+            <label for="password" class="neon-text"><i class="fas fa-key"></i> Senha</label>
+
+            <div class="input-group">
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       name="password"
+                       placeholder="Sua senha secreta"
+                       required>
+
+                <div class="input-group-append">
+                    <button class="btn btn-neon-toggle" type="button" id="togglePassword">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <div class="d-flex justify-content-end additional-links mt-4 mb-4">
+        <div class="d-flex justify-content-between additional-links mt-4 mb-4">
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="checkRemember">
                 <label class="form-check-label" for="checkRemember">
                     Manter conectado
                 </label>
             </div>
+            <a href="#" class="text-secondary" style="text-decoration: none;">Privacidade</a>
         </div>
 
         <button type="submit" class="btn btn-neon mb-3">
-            <i class="fas fa-sign-in-alt"></i> ENTRAR NO SISTEMA
+            <i class="fas fa-sign-in-alt"></i> ACESSAR SISTEMA
         </button>
 
         <a href="#" class="btn btn-neon-green">
-             <i class="fas fa-question-circle"></i> Esqueci a Senha
+             <i class="fas fa-question-circle"></i> ESQUECI A SENHA
         </a>
     </form>
+    {% endif %}
 </div>
 
 <a href="#" class="btn-cadastro-out">
-    Ainda não tem conta? **Cadastre-se**
+    Ainda não tem conta? <strong class="neon-text">Cadastre-se</strong>
 </a>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // =========================================================================
+    // LÓGICA DE MOSTRAR/ESCONDER SENHA
+    // =========================================================================
+    $(document).ready(function() {
+        $("#togglePassword").click(function() {
+            var passwordInput = $("#password");
+            var icon = $(this).find('i');
+
+            if (passwordInput.attr("type") === "password") {
+                passwordInput.attr("type", "text");
+                icon.removeClass("fa-eye-slash").addClass("fa-eye");
+            } else {
+                passwordInput.attr("type", "password");
+                icon.removeClass("fa-eye").addClass("fa-eye-slash");
+            }
+        });
+    });
+</script>
 </body>
 </html>
