@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.contrib.auth import login, logout
+
 
 
 def login(request):
@@ -12,7 +13,7 @@ def login(request):
     user = auth.authenticate(username=username, password=password)
     if user is not None:
             login(request, user)
-            messages.success(request, 'Sucesso!')
+            #messages.success(request, 'Sucesso!')
             return redirect('Listar_contato')
-    messages.error(request, 'Email ou senha incorreta')
-    return redirect('Listar_contato')
+    #messages.error(request, 'Email ou senha incorreta')
+    return redirect('login')
